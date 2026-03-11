@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>So Paradi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f0ede8;
+      --grey: #2a2a2a;
+      --accent: #f0ede8;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--black);
+      color: var(--white);
+      font-family: Verdana, sans-serif;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 2rem;
+    }
+
+    .logo-wrap {
+      width: min(1300px, 98vw);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+
+    .logo-wrap svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .logo-wrap svg path {
+      fill: var(--white);
+    }
+
+    .tagline {
+      margin-top: 3rem;
+      font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #666;
+      opacity: 0;
+      animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.5s forwards;
+    }
+
+    .scroll-hint span {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: #444;
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, #444, transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: #1a1a1a;
+      margin-bottom: 0;
+    }
+
+    /* PROJETS */
+    .projects {
+      padding: 0 clamp(1.5rem, 5vw, 6rem) 8rem;
+    }
+
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .project-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: 4rem 1fr auto;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 2.8rem 1.5rem;
+      border-bottom: 1px solid #1e1e1e;
+      text-decoration: none;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease;
+    }
+
+    .project-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0;
+      background: #131313;
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 0;
+    }
+
+    .project-item:hover::before { width: 100%; }
+
+    .project-item > * { position: relative; z-index: 1; }
+
+    .project-num {
+      font-size: 0.75rem;
+      color: #777;
+      letter-spacing: 0.15em;
+    }
+
+    .project-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5.5vw, 4.8rem);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-item:hover .project-name {
+      transform: translateX(1.2rem);
+    }
+
+    .project-meta {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .project-tag {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #999;
+      display: block;
+    }
+
+    .project-status {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .project-status.live {
+      color: var(--white);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 3rem clamp(1.5rem, 5vw, 6rem);
+      border-top: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer a {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover { color: var(--white); }
+
+    .footer-copy {
+      font-size: 0.6rem;
+      color: #333;
+      letter-spacing: 0.15em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.3); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .project-item {
+        grid-template-columns: 2.5rem 1fr auto;
+        gap: 0.8rem;
+        padding: 1.8rem 0.5rem;
+      }
+      .project-name {
+        font-size: clamp(1.8rem, 7vw, 2.8rem);
+      }
+      .project-tag {
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+      }
+      .project-status {
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="logo-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+        <path d="M699.31,523.46c0,20.45-11.46,32.08-28.91,32.08-10.93,0-22.21-3.88-34.02-22.74-3.35-5.29-4.76-12.52-4.76-21.33,0-8.29,1.06-16.39,1.59-20.1l19.74,2.12,8.46,8.11c-1.41-7.76-6.35-16.04-13.93-25.21-11.46-13.93-16.22-25.03-16.22-40.9v-2.12c0-17.98,7.05-32.08,28.03-32.08,6.35,0,11.28,1.06,14.98,3.53,16.92,11.28,23.45,21.15,23.45,39.66,0,7.4-.53,13.22-1.23,18.51l-17.8-1.59s4.94,8.11,8.11,13.75c8.29,14.46,12.52,30.85,12.52,45.66v2.64ZM685.38,508.48c0-16.92-7.58-32.97-19.21-47.77-8.46-10.75-11.46-18.86-11.46-26.97v-2.82c0-7.76,1.23-11.63,6.17-11.63s6.52,4.23,6.52,15.69c0,7.05-.35,8.29-.71,11.81l15.69,1.76c.53-4.23,1.06-8.81,1.06-15.51,0-18.33-5.82-29.62-24.15-29.62s-25.91,12.69-25.91,29.97v2.12c0,15.16,4.58,26.09,15.87,39.66,11.63,14.1,14.46,23.45,14.46,33.85v3.7c0,8.29-2.12,12.34-7.05,12.34-5.46,0-7.23-4.23-7.23-15.51,0-4.58.53-10.05,1.06-14.1l-15.51-1.76c-.53,3.88-1.23,10.4-1.23,17.8,0,19.21,7.05,29.62,24.33,29.62s27.32-8.81,27.32-29.97v-2.64Z"/>
+        <path d="M778.63,522.93c0,22.92-13.93,32.61-30.15,32.61-12.52,0-18.69-2.47-35.79-21.33-4.58-4.94-7.23-12.16-7.23-22.04v-79.86c0-22.74,14.28-31.03,30.67-31.03,6.7,0,13.04,1.41,17.98,4.58,17.98,11.28,24.5,23.98,24.5,38.78v78.27ZM764,432.32c0-21.51-12.34-28.91-27.85-28.91s-28.56,7.58-28.56,28.91v79.86c0,20.98,12.87,28.91,28.56,28.91s27.85-7.4,27.85-28.91v-79.86ZM742.85,516.76c0,5.46-2.47,8.29-6.7,8.29-4.58,0-7.23-2.82-7.23-8.46v-88.85c0-5.82,2.82-8.46,7.05-8.46,3.53,0,6.88,2.64,6.88,8.46v89.02Z"/>
+        <path d="M857.79,504.42h-1.06v49.01h-25.39l-12.52-12.34v-137.5h28.91c6.7,0,12.34,1.23,16.92,3.88,13.57,7.93,26.44,18.33,26.44,52.36s-15.87,44.6-33.32,44.6ZM847.74,405.7h-26.8v133.27h21.33v-48.48h6.35c15.69,0,28.03-9.52,28.03-43.01,0-31.73-9.7-41.78-28.91-41.78ZM845.98,473.92h-3.7v-51.65h3.53c7.05,0,10.05,6.52,10.05,25.03,0,19.92-3.35,26.62-9.87,26.62Z"/>
+        <path d="M964.09,553.61h-26.09l-12.34-12.52-.53-6.35h-1.06l-1.41,18.86h-22.04l-12.16-12.52,17.8-137.5h26.97l12.34,12.52,18.51,137.5ZM949.11,538.97l-17.63-133.27h-23.45l-17.1,133.27h17.45l1.76-18.86h15.69l1.76,18.86h21.51ZM923.72,503.36h-11.99l6.88-66.81,5.11,66.81Z"/>
+        <path d="M1018.04,553.61l-10.22-9.87v9.87h-25.39l-12.52-12.52v-137.5h30.32c7.58,0,13.93,1.59,18.51,5.29,14.63,11.99,23.8,21.68,23.8,41.25s-5.46,28.56-14.1,33.14c9.52,7.76,11.99,17.45,11.99,31.73v13.75c0,13.75.71,17.98,2.47,24.86h-24.86ZM1000.23,405.7h-28.21v133.62h21.33v-55.35h4.41c4.05,0,6.7,3.7,7.05,23.45.18,8.64.18,13.05.53,24.86.18,2.64.71,5.29,1.41,7.05h21.15c-1.23-5.29-1.94-10.4-1.94-23.09v-10.22c0-9.34-1.23-25.91-12.52-31.2,12.87-5.29,14.63-14.63,14.63-34.55,0-24.5-9.7-34.55-27.85-34.55ZM997.41,467.23h-4.05v-44.95h4.23c6.17,0,9.7,4.05,9.7,21.51s-3.35,23.45-9.87,23.45Z"/>
+        <path d="M1121.52,553.61h-26.09l-12.34-12.52-.53-6.35h-1.06l-1.41,18.86h-22.04l-12.16-12.52,17.8-137.5h26.97l12.34,12.52,18.51,137.5ZM1106.53,538.97l-17.63-133.27h-23.45l-17.1,133.27h17.45l1.76-18.86h15.69l1.76,18.86h21.51ZM1081.15,503.36h-11.99l6.88-66.81,5.11,66.81Z"/>
+        <path d="M1200.49,522.58c0,22.21-13.22,30.85-32.08,30.85h-28.56l-12.52-12.34v-137.5h29.79c8.46,0,15.16,1.41,20.27,4.76,16.57,11.11,23.09,21.33,23.09,39.31v74.92ZM1186.04,435.32c0-22.56-9.87-29.62-28.91-29.62h-27.68v133.27h28.21c17.98,0,28.38-6.52,28.38-27.32v-76.33ZM1164.71,512.71c0,6.7-2.29,9.7-8.64,9.7h-5.29v-100.13h5.64c5.64,0,8.29,2.47,8.29,10.58v79.86Z"/>
+        <path d="M1246.86,553.43h-25.38l-12.52-12.34v-137.5h25.56l12.34,12.52v137.33ZM1232.4,539.33v-133.62h-21.33v133.62h21.33Z"/>
+      </svg>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Projets</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section class="projects">
+    <div class="section-divider"></div>
+    <div class="project-list">
+
+      <a href="https://www.nouvellevagu.es" target="_blank" class="project-item">
+        <span class="project-num">01</span>
+        <span class="project-name">nouvellevagu.es</span>
+        <div class="project-meta">
+          <span class="project-tag">Production film & photo</span>
+          <span class="project-status live">En ligne</span>
+        </div>
+      </a>
+
+      <a href="https://www.menorca-agenda.com" target="_blank" class="project-item">
+        <span class="project-num">02</span>
+        <span class="project-name">menorca-agenda.com</span>
+        <div class="project-meta">
+          <span class="project-tag">Agenda culturel</span>
+          <span class="project-status live">En ligne</span>
+        </div>
+      </a>
+
+      <a href="#" class="project-item">
+        <span class="project-num">03</span>
+        <span class="project-name">Tiers-Lieu</span>
+        <div class="project-meta">
+          <span class="project-tag">Espace de travail</span>
+          <span class="project-status">À venir</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <footer>
+    <a href="/cdn-cgi/l/email-protection#84e7ebeaf0e5e7f0c4f7ebf4e5f6e5e0edaae7ebe9"><span class="__cf_email__" data-cfemail="1e7d71706a7f7d6
