@@ -1,1 +1,8 @@
-web: node -e "const h=require(\"http\"),f=require(\"fs\");h.createServer((q,r)=>{r.writeHead(200,{\"Content-Type\":\"text/html\"});r.end(f.readFileSync(\"index.html\"))}).listen(process.env.PORT||3000)"
+const http = require('http');
+const fs = require('fs');
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.end(fs.readFileSync('index.html'));
+}).listen(port, '0.0.0.0');
+console.log('Server running on port ' + port);
