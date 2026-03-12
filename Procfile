@@ -1,1 +1,1 @@
-web: caddy run --config Caddyfile
+web: node server.js

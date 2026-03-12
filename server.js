@@ -1,0 +1,1 @@
+web: node -e "const h=require(\"http\"),f=require(\"fs\");h.createServer((q,r)=>{r.writeHead(200,{\"Content-Type\":\"text/html\"});r.end(f.readFileSync(\"index.html\"))}).listen(process.env.PORT||3000)"
