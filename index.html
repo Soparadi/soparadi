@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>So Paradi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -20,7 +20,7 @@
       height: 100%;
       background: var(--black);
       color: var(--white);
-      font-family: Verdana, sans-serif;
+      font-family: 'Courier Prime', monospace;
       overflow-x: hidden;
       cursor: crosshair;
     }
@@ -48,7 +48,7 @@
     }
 
     .logo-wrap {
-      width: min(1300px, 98vw);
+      width: min(800px, 90vw);
       opacity: 0;
       transform: translateY(30px);
       animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
@@ -100,12 +100,6 @@
       animation: scrollPulse 2s ease infinite;
     }
 
-    .section-divider {
-      height: 1px;
-      background: #1a1a1a;
-      margin-bottom: 0;
-    }
-
     /* PROJETS */
     .projects {
       padding: 0 clamp(1.5rem, 5vw, 6rem) 8rem;
@@ -128,11 +122,11 @@
 
     .project-item {
       display: grid;
-      grid-template-columns: 4rem 1fr auto;
+      grid-template-columns: 3rem 1fr auto;
       align-items: center;
-      gap: 2.5rem;
-      padding: 2.8rem 1.5rem;
-      border-bottom: 1px solid #1e1e1e;
+      gap: 2rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid #1a1a1a;
       text-decoration: none;
       color: var(--white);
       position: relative;
@@ -147,7 +141,7 @@
       top: 0;
       height: 100%;
       width: 0;
-      background: #131313;
+      background: #111;
       transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 0;
     }
@@ -157,49 +151,45 @@
     .project-item > * { position: relative; z-index: 1; }
 
     .project-num {
-      font-size: 0.75rem;
-      color: #777;
-      letter-spacing: 0.15em;
+      font-size: 0.65rem;
+      color: #444;
+      letter-spacing: 0.1em;
     }
 
     .project-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 5.5vw, 4.8rem);
-      letter-spacing: 0.04em;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.05em;
       line-height: 1;
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .project-item:hover .project-name {
-      transform: translateX(1.2rem);
+      transform: translateX(1rem);
     }
 
     .project-meta {
       text-align: right;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
     }
 
     .project-tag {
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: #999;
+      color: #555;
       display: block;
+      margin-bottom: 0.3rem;
     }
 
     .project-status {
-      font-size: 0.75rem;
-      letter-spacing: 0.18em;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #555;
+      color: #333;
     }
 
     .project-status.live {
-      color: var(--white);
-      font-weight: 700;
-      letter-spacing: 0.22em;
+      color: #5a7a5a;
     }
 
     /* FOOTER */
@@ -243,21 +233,10 @@
     /* RESPONSIVE */
     @media (max-width: 600px) {
       .project-item {
-        grid-template-columns: 2.5rem 1fr auto;
-        gap: 0.8rem;
-        padding: 1.8rem 0.5rem;
+        grid-template-columns: 2rem 1fr;
+        gap: 1rem;
       }
-      .project-name {
-        font-size: clamp(1.8rem, 7vw, 2.8rem);
-      }
-      .project-tag {
-        font-size: 0.6rem;
-        letter-spacing: 0.1em;
-      }
-      .project-status {
-        font-size: 0.58rem;
-        letter-spacing: 0.1em;
-      }
+      .project-meta { display: none; }
     }
   </style>
 </head>
@@ -284,11 +263,20 @@
   </section>
 
   <section class="projects">
-    <div class="section-divider"></div>
+    <p class="section-label">Projets — 2025</p>
     <div class="project-list">
 
-      <a href="https://www.nouvellevagu.es" target="_blank" class="project-item">
+      <a href="https://www.graphicfactor.io" target="_blank" class="project-item">
         <span class="project-num">01</span>
+        <span class="project-name">graphicfactor.io</span>
+        <div class="project-meta">
+          <span class="project-tag">Studio créatif</span>
+          <span class="project-status live">En ligne</span>
+        </div>
+      </a>
+
+      <a href="https://www.nouvellevagu.es" target="_blank" class="project-item">
+        <span class="project-num">02</span>
         <span class="project-name">nouvellevagu.es</span>
         <div class="project-meta">
           <span class="project-tag">Production film & photo</span>
@@ -297,7 +285,7 @@
       </a>
 
       <a href="https://www.menorca-agenda.com" target="_blank" class="project-item">
-        <span class="project-num">02</span>
+        <span class="project-num">03</span>
         <span class="project-name">menorca-agenda.com</span>
         <div class="project-meta">
           <span class="project-tag">Agenda culturel</span>
@@ -306,7 +294,7 @@
       </a>
 
       <a href="#" class="project-item">
-        <span class="project-num">03</span>
+        <span class="project-num">04</span>
         <span class="project-name">Tiers-Lieu</span>
         <div class="project-meta">
           <span class="project-tag">Espace de travail</span>
@@ -318,4 +306,10 @@
   </section>
 
   <footer>
-    <a href="/cdn-cgi/l/email-protection#84e7ebeaf0e5e7f0c4f7ebf4e5f6e5e0edaae7ebe9"><span class="__cf_email__" data-cfemail="1e7d71706a7f7d6
+    <a href="mailto:contact@soparadi.com">contact@soparadi.com</a>
+    <span class="footer-copy">So Paradi SAS — Dinan, Bretagne</span>
+    <span class="footer-copy">© 2025</span>
+  </footer>
+
+</body>
+</html>
